@@ -8,36 +8,36 @@ import id.man.story.domain.model.StoryData
 data class DetailCommentResponse(
 
 	@SerializedName("parent")
-	val parent: Int,
+	val parent: Int? = null,
 
 	@SerializedName("by")
-	val by: String,
+	val by: String? = null,
 
 	@SerializedName("id")
-	val id: Int,
+	val id: Int? = null,
 
 	@SerializedName("text")
-	val text: String,
+	val text: String? = null,
 
 	@SerializedName("time")
-	val time: Long,
+	val time: Long? = null,
 
 	@SerializedName("type")
-	val type: String,
+	val type: String? = null,
 
 	@SerializedName("kids")
-	val kids: List<Int>
+	val kids: List<Int>? = null
 ){
 	companion object {
 		fun DetailCommentResponse.toDomain(): CommentData {
 			return CommentData(
-				id = id,
-				by = by,
-				time = time.toDate(),
-				type = type,
-				kids = kids,
-				parent = parent,
-				text = text
+				id = id ?: 0,
+				by = by ?: "",
+				time = time?.toDate() ?: "",
+				type = type ?: "",
+				kids = kids ?: listOf(),
+				parent = parent ?: 0,
+				text = text ?: ""
 			)
 		}
 	}

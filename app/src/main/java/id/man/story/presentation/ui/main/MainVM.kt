@@ -1,12 +1,13 @@
 package id.man.story.presentation.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import id.man.paging.BaseListVM
 import id.man.story.domain.model.ResourceApi
 import id.man.story.domain.model.StoryData
 import id.man.story.domain.usecase.NewsUseCase
-import id.man.story.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 /**
@@ -16,39 +17,38 @@ import kotlinx.coroutines.launch
  */
 class MainVM(
     private val useCase: NewsUseCase
-) : BaseViewModel() {
+) : BaseListVM() {
 
     // region Attribute
 
-    private val mutableUi = MutableLiveData<MainState>(MainState.ShowLoading)
+    private val mutableUi = MutableLiveData<MainState>()
     val uiState = mutableUi as LiveData<MainState>
     private val _dataListId = mutableListOf<Int>()
-    private var index = 0
     // endregion
 
     // region Get List Id Top Story
 
-    fun getListIdTopStory() {
+    fun getListIdTopStory(index: Int) {
+        Log.d("WKWKWK", "CHECK $index")
         mutableUi.value = MainState.ShowLoading
-        viewModelScope.launch {
-            try {
-                val response = useCase.getListIdTopStory()
-                handleListId(response)
-            } catch (t: Throwable) {
-                errorMessage.value = t.message
+        if (index == 0) {
+            viewModelScope.launch {
+                try {
+                    val response = useCase.getListIdTopStory()
+                    handleListId(response)
+                } catch (t: Throwable) {
+                    t.printStackTrace()
+                }
             }
+        } else {
+            checkData(index)
         }
     }
 
     private fun handleListId(data: ResourceApi<List<Int>>) {
-        when (data) {
-            is ResourceApi.OnSuccess -> {
-                _dataListId.addAll(data.data)
-                checkData()
-            }
-            is ResourceApi.OnError -> {
-                errorMessage.value = data.message
-            }
+        if (data is ResourceApi.OnSuccess) {
+            _dataListId.addAll(data.data)
+            checkData(0)
         }
     }
 
@@ -56,20 +56,20 @@ class MainVM(
 
     // region Get List Story
 
-    private fun checkData() {
-        if (index < _dataListId.size) {
-            fetchData()
+    private fun checkData(index: Int) {
+        if (index != _dataListId.size - 1) {
+            fetchData(index)
         } else {
-            mutableUi.value = MainState.IsFetchDataDone
+            mutableUi.value = MainState.OnGetDataStory(listOf())
         }
     }
 
-    private fun fetchData() {
+    private fun fetchData(index: Int) {
         val temp = _dataListId[index]
         viewModelScope.launch {
             val data = useCase.getDetailStory(temp)
             if (data is ResourceApi.OnSuccess) {
-                mutableUi.postValue(MainState.OnGetDataStory(listOf(data.data)))
+                mutableUi.value = MainState.OnGetDataStory(listOf(data.data))
             }
         }
     }
@@ -80,9 +80,7 @@ class MainVM(
 
     sealed class MainState {
         data class OnGetDataStory(val data: List<StoryData>) : MainState()
-        data class OnSetProgress(val percent: Int) : MainState()
         object ShowLoading : MainState()
-        object IsFetchDataDone : MainState()
     }
 
     // endregion

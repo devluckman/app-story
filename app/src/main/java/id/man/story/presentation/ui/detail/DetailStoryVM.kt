@@ -3,6 +3,7 @@ package id.man.story.presentation.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import id.man.paging.BaseListVM
 import id.man.story.domain.model.CommentData
 import id.man.story.domain.model.ResourceApi
 import id.man.story.domain.usecase.NewsUseCase
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
  */
 class DetailStoryVM(
     private val useCase: NewsUseCase
-) : BaseViewModel() {
+) : BaseListVM() {
 
     // region Attribute
 

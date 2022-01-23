@@ -62,6 +62,7 @@ class RepositoryImpl(
             }
 
         } catch (e: Exception) {
+            e.printStackTrace()
             ResourceApi.OnError(e.message ?: "Something Error")
         }
     }

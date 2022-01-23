@@ -2,9 +2,8 @@ package id.man.story.presentation.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import id.man.paging.BaseAdapterRecyclerView
 import id.man.story.databinding.ItemStoryBinding
 import id.man.story.domain.model.StoryData
 
@@ -15,18 +14,7 @@ import id.man.story.domain.model.StoryData
  */
 class MainAdapter(
     private val onItemClick: (StoryData) -> Unit
-) : ListAdapter<StoryData, MainAdapter.ViewHolder>(StoryDiffUtil()) {
-    val data = mutableListOf<StoryData>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemStoryBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick)
-    }
+) : BaseAdapterRecyclerView<StoryData, MainAdapter.ViewHolder>() {
 
     class ViewHolder(
         private val binding: ItemStoryBinding
@@ -43,18 +31,18 @@ class MainAdapter(
         }
     }
 
-    fun updateData(newData: List<StoryData>) {
-        data.addAll(newData)
-        submitList(data)
+    override fun onCreateDefaultViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        val binding = ItemStoryBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ViewHolder(binding)
     }
 
-    class StoryDiffUtil : DiffUtil.ItemCallback<StoryData>() {
-        override fun areItemsTheSame(oldItem: StoryData, newItem: StoryData): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: StoryData, newItem: StoryData): Boolean {
-            return oldItem == newItem
-        }
+    override fun onBindDefaultViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getDataList()[position], onItemClick)
     }
+
 }

@@ -2,4 +2,6 @@
     <string name="app_name">AppStory</string>
     <string name="detail_story_label_deskripsi">Deskripsi :</string>
     <string name="detail_story_label_komentar">Komentar :</string>
+    <string name="txt_label_my_favorite">My Favorite</string>
+    <color name="color_grey_text">#707070</color>
 </resources>

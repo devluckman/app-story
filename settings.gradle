@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AppStory"
 include ':app'
+include ':paging'

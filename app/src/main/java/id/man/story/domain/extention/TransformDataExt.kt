@@ -10,13 +10,16 @@ import java.util.*
  * devs.lukman@gmail.com
  */
 
-fun Long.toDate(): String {
-    try {
-        val newDateFormat = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
-        val date = Date(this)
-        return newDateFormat.format(date)
-    } catch (e: ParseException) {
-        e.printStackTrace()
+fun Long?.toDate(): String {
+    if (this != null) {
+        try {
+            val newDateFormat = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+            val date = Date(this)
+            return newDateFormat.format(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return ""
     }
-    return ""
+    else return ""
 }

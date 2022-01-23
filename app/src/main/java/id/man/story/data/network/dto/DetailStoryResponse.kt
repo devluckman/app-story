@@ -7,46 +7,46 @@ import id.man.story.domain.model.StoryData
 data class DetailStoryResponse(
 
     @SerializedName("score")
-    val score: Int,
+    val score: Int? = null,
 
     @SerializedName("by")
-    val by: String,
+    val by: String? = null,
 
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
 
     @SerializedName("time")
-    val time: Long,
+    val time: Long? = null,
 
     @SerializedName("title")
-    val title: String,
+    val title: String? = null,
 
     @SerializedName("type")
-    val type: String,
+    val type: String? = null,
 
     @SerializedName("descendants")
-    val descendants: Int,
+    val descendants: Int? = null,
 
     @SerializedName("url")
-    val url: String,
+    val url: String? = null,
 
     @SerializedName("kids")
-    val kids: List<Int>
+    val kids: List<Int>? = null
 
 ) {
 
     companion object {
         fun DetailStoryResponse.toDomain(): StoryData {
             return StoryData(
-                id = id,
-                by = by,
-                score = score,
-                time = time.toDate(),
-                title = title,
-                type = type,
-                descendants = descendants,
-                url = url,
-                commentsId = kids
+                id = id ?: 0,
+                by = by ?: "",
+                score = score ?: 0,
+                time = time?.toDate() ?: "",
+                title = title ?: "",
+                type = type ?: "",
+                descendants = descendants ?: 0,
+                url = url ?: "",
+                commentsId = kids ?: listOf()
             )
         }
     }

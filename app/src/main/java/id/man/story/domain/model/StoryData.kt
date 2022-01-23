@@ -19,4 +19,15 @@ data class StoryData(
     val descendants: Int,
     val url: String,
     val commentsId: List<Int>
-) : Parcelable
+) : Parcelable {
+
+    companion object {
+
+        fun StoryData.toFirebase(): StoryDataFirebase =
+            StoryDataFirebase(
+                score, by, id, time, title, type, descendants, url, commentsId
+            )
+
+    }
+
+}

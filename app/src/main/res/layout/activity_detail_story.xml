@@ -55,38 +55,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_story_name"
             tools:text="dd/mm/yyyy" />
 
-        <TextView
-            android:id="@+id/txt_label_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimens_16"
-            android:layout_marginTop="@dimen/dimens_32"
-            android:text="@string/detail_story_label_deskripsi"
-            android:textSize="16sp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_story_date" />
-
-        <TextView
-            android:id="@+id/tv_story_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimens_16"
-            android:layout_marginTop="@dimen/dimens_8"
-            android:textSize="14sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_label_description"
-            tools:text="Lorem Ipsum . . ." />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.50" />
-
 
         <TextView
             android:id="@+id/txt_label_comment"
@@ -97,18 +65,26 @@
             android:text="@string/detail_story_label_komentar"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_middle" />
+            app:layout_constraintTop_toBottomOf="@id/tv_story_date" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_data_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimens_8"
-            android:orientation="vertical"
-            android:id="@+id/rv_story_comment"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimens_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_label_comment" />
+            app:layout_constraintTop_toBottomOf="@id/txt_label_comment">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_data_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="vertical" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
